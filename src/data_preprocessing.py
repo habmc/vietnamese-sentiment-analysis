@@ -61,13 +61,13 @@ def normalize_text(text):
         'ả': 'ả', 'ố': 'ố', 'u´': 'ố','ỗ': 'ỗ', 'ồ': 'ồ', 'ổ': 'ổ', 'ấ': 'ấ', 'ẫ': 'ẫ', 'ẩ': 'ẩ',
         'ầ': 'ầ', 'ỏ': 'ỏ', 'ề': 'ề','ễ': 'ễ', 'ắ': 'ắ', 'ủ': 'ủ', 'ế': 'ế', 'ở': 'ở', 'ỉ': 'ỉ',
         'ẻ': 'ẻ', 'àk': u' à ','aˋ': 'à', 'iˋ': 'ì', 'ă´': 'ắ','ử': 'ử', 'e˜': 'ẽ', 'y˜': 'ỹ', 'a´': 'á',
-        #Quy các icon về 2 loại emoj: Tích cực hoặc tiêu cực
-        "👹": "negative", "👻": "positive", "💃": "positive",'🤙': ' positive ', '👍': ' positive ',
-        "💄": "positive", "💎": "positive", "💩": "positive","😕": "negative", "😱": "negative", "😸": "positive",
-        "😾": "negative", "🚫": "negative",  "🤬": "negative","🧚": "positive", "🧡": "positive",'🐶':' positive ',
-        '👎': ' negative ', '😣': ' negative ','✨': ' positive ', '❣': ' positive ','☀': ' positive ',
+
+        "👹": "negative", "💃": "positive",'🤙': ' positive ', '👍': ' positive ',
+        "💎": "positive", "💩": "negative","😕": "negative", "😱": "negative", "😸": "positive",
+        "😾": "negative", "🚫": "negative",  "🤬": "negative","🧚": "positive", "🧡": "positive",
+        '👎': ' negative ', '😣': ' negative ',
         '♥': ' positive ', '🤩': ' positive ', 'like': ' positive ', '💌': ' positive ',
-        '🤣': ' positive ', '🖤': ' positive ', '🤤': ' positive ', ':(': ' negative ', '😢': ' negative ',
+        '🖤': ' positive ', '🤤': ' positive ', ':(': ' negative ', '😢': ' negative ',
         '❤': ' positive ', '😍': ' positive ', '😘': ' positive ', '😪': ' negative ', '😊': ' positive ',
         '?': ' ? ', '😁': ' positive ', '💖': ' positive ', '😟': ' negative ', '😭': ' negative ',
         '💯': ' positive ', '💗': ' positive ', '♡': ' positive ', '💜': ' positive ', '🤗': ' positive ',
@@ -82,13 +82,8 @@ def normalize_text(text):
         '😗': ' positive ', '🤔': ' negative ', '😑': ' negative ', '🔥': ' negative ', '🙏': ' negative ',
         '🆗': ' positive ', '😻': ' positive ', '💙': ' positive ', '💟': ' positive ',
         '😚': ' positive ', '❌': ' negative ', '👏': ' positive ', ';)': ' positive ', '<3': ' positive ',
-        '🌝': ' positive ',  '🌷': ' positive ', '🌸': ' positive ', '🌺': ' positive ',
-        '🌼': ' positive ', '🍓': ' positive ', '🐅': ' positive ', '🐾': ' positive ', '👉': ' positive ',
-        '💐': ' positive ', '💞': ' positive ', '💥': ' positive ', '💪': ' positive ',
-        '💰': ' positive ',  '😇': ' positive ', '😛': ' positive ', '😜': ' positive ',
-        '🙃': ' positive ', '🤑': ' positive ', '🤪': ' positive ','☹': ' negative ',  '💀': ' negative ',
-        '😔': ' negative ', '😧': ' negative ', '😩': ' negative ', '😰': ' negative ', '😳': ' negative ',
-        '😵': ' negative ', '😶': ' negative ', '🙁': ' negative ',
+        '🌝': ' positive ', '💞': ' positive ', '😇': ' positive ', '😛': ' positive ', '😜': ' positive ',
+        '😧': ' negative ', '😩': ' negative ', '😰': ' negative ', '😶': ' negative ', '🙁': ' negative ',
         #Chuẩn hóa 1 số sentiment words/English words
         ':))': '  positive ', ':)': ' positive ', 'ô kêi': ' ok ', 'okie': ' ok ', ' o kê ': ' ok ',
         'okey': ' ok ', 'ôkê': ' ok ', 'oki': ' ok ', ' oke ':  ' ok ',' okay':' ok ','okê':' ok ',
@@ -130,21 +125,21 @@ def normalize_text(text):
     texts = [t.replace('_', ' ') for t in texts]
     for i in range(len_text):
         cp_text = texts[i]
-        if cp_text in negation_list: #  (ex: áo này chẳng đẹp (This shirt is not pretty )--> áo này notpos (This shirt notpos(not positive)))
+        if cp_text in negation_list: #  Ex: áo này chẳng đẹp (This shirt is not pretty) --> áo này notpos (This shirt notpos(short for not positive))
             numb_word = 2 if len_text - i - 1 >= 4 else len_text - i - 1
 
             for j in range(numb_word):
                 if texts[i + j + 1] in positive_list:
-                    texts[i] = 'notpos'
+                    texts[i] = 'negative'
                     texts[i + j + 1] = ''
 
-                if texts[i + j + 1] in neg_list:
-                    texts[i] = 'notneg'
+                if texts[i + j + 1] in negative_list:
+                    texts[i] = 'positive'
                     texts[i + j + 1] = ''
         else: # Add features to acknowledge sentiment words (áo này đẹp (This shirt is pretty)--> áo này đẹp positive (This shirt is pretty positive))
             if cp_text in positive_list:
                 texts.append('positive')
-            elif cp_text in neg_list:
+            elif cp_text in negative_list:
                 texts.append('negative')
 
     text = u' '.join(texts)
