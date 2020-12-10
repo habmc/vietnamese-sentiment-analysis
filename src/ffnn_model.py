@@ -87,6 +87,8 @@ def main():
     with open('../results/ffnn_results.json', 'w') as outfile:
         json.dump(results, outfile)
 
+    model.save('../weights/ffnn.h5')
+
 
 if __name__ == "__main__":
     main()
