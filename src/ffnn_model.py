@@ -21,6 +21,7 @@ def get_data():
 
     training_sent = train_data['review'].tolist()
     training_labels = train_data['label'].tolist()
+
     testing_sent = test_data['review'].tolist()
     testing_labels = test_data['label'].tolist()
 
@@ -47,29 +48,30 @@ def get_data():
 
 def main():
     x_train, y_train, x_test, y_test, max_words, max_len = get_data()
+
     model = Sequential()
     numNeurons = 512
-    model.add(Embedding(max_words, 128, input_length=max_len))
+    model.add(Embedding(max_words, 256, input_length=max_len))
     model.add(Flatten())
 
     model.add(Dense(numNeurons))
-    model.add(Dropout(0.4))
+    model.add(Dropout(0.5))
     model.add(Dense(numNeurons))
-    model.add(Dropout(0.4))
+    model.add(Dropout(0.5))
 
     model.add(Dense(1, activation='sigmoid'))
 
-    epochs = 5
+    epochs = 20
     batch_size = 128
     model.compile(loss='binary_crossentropy',
-                  optimizer=SGD(lr=0.01),
+                  optimizer=SGD(lr=0.02),
                   metrics=['accuracy'])
 
     print('Train...')
     history = model.fit(x_train, y_train,
                         batch_size=batch_size,
                         epochs=epochs,
-                        validation_data=(x_test, y_test))
+                        validation_split=0.33)
 
     score, acc = model.evaluate(x_test, y_test,
                                 batch_size=batch_size)
