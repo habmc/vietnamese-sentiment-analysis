@@ -84,7 +84,8 @@ def normalize_text(text):
         '😚': ' positive ', '❌': ' negative ', '👏': ' positive ', ';)': ' positive ', '<3': ' positive ',
         '🌝': ' positive ', '💞': ' positive ', '😇': ' positive ', '😛': ' positive ', '😜': ' positive ',
         '😧': ' negative ', '😩': ' negative ', '😰': ' negative ', '😶': ' negative ', '🙁': ' negative ',
-        #Chuẩn hóa 1 số sentiment words/English words
+        
+        #Standardize commonly seen sentiment words and English loan words
         ':))': '  positive ', ':)': ' positive ', 'ô kêi': ' ok ', 'okie': ' ok ', ' o kê ': ' ok ',
         'okey': ' ok ', 'ôkê': ' ok ', 'oki': ' ok ', ' oke ':  ' ok ',' okay':' ok ','okê':' ok ',
         ' tks ': u' cám ơn ', 'thks': u' cám ơn ', 'thanks': u' cám ơn ', 'ths': u' cám ơn ', 'thank': u' cám ơn ',
