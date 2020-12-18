@@ -61,7 +61,7 @@ def main():
 
     model.add(Dense(1, activation='sigmoid'))
 
-    epochs = 20
+    epochs = 30
     batch_size = 128
     model.compile(loss='binary_crossentropy',
                   optimizer=SGD(lr=0.02),
